@@ -1,5 +1,8 @@
 #include "Alignment.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 Alignment::Alignment(function<double (Point2f, Point2f)> measureDistance, double maxMoveDistance)
 {
   cout << GREEN << "Initialising alignment engine..." << RESET << endl;

@@ -6,8 +6,6 @@
 
 #pragma once
 
-using namespace std;
-using namespace cv;
 
 /**
  * Video source capture interface
@@ -16,6 +14,6 @@ using namespace cv;
 class IVideoSource
 {
 public:
-  virtual Mat captureWith(ITransformation &t, bool bShow) = 0;
-  virtual void captureRealtimeWith(ITransformation &t, function<void (Mat)> pipe) = 0;
+  virtual cv::Mat captureWith(ITransformation &t, bool bShow) = 0;
+  virtual void captureRealtimeWith(ITransformation &t, std::function<void (cv::Mat)> pipe) = 0;
 };

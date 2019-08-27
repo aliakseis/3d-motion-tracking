@@ -1,9 +1,8 @@
+#pragma once
+
 #include <opencv2/opencv.hpp>
 #include <opencv/cvaux.hpp>
 
-#pragma once
-
-using namespace cv;
 
 /**
  * Abstract matrix or image transformation interface
@@ -13,5 +12,5 @@ using namespace cv;
 class ITransformation
 {
 public:
-  virtual Mat transform(Mat& input) = 0;
+  virtual cv::Mat transform(cv::Mat& input) = 0;
 };

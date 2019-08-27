@@ -4,13 +4,14 @@
  * @copyRight 2016-now 
  */
 
-#include <mutex>
-#include <functional>
 #include "IdentityTransformation.h"
 #include "FilterTransformation.h"
-#include "VideoCamera.h"
+#include "VideoSource.h"
 #include "ParticleTracker.h"
 #include "ITracker.h"
+
+#include <mutex>
+#include <functional>
 
 using namespace std;
 
@@ -37,16 +38,24 @@ function<void (Mat)> createTracker()
 
 int main(int argc, char** argv)
 {
-  // Prepare frame transformers
-  IdentityTransformation nothing;
-  FilterTransformation grayDownsampling = FilterTransformation(
-    FilterType::Nothing, 0, 0, 0.43);
+    try
+    {
+        // Prepare frame transformers
+        IdentityTransformation nothing;
+        FilterTransformation grayDownsampling = FilterTransformation(
+        FilterType::Nothing, 0, 0, 0.43);
   
-  auto tracker = createTracker();
-  ITracker::bindMouseEvent(trackerModel->wndName, mouseEvent);
+        auto tracker = createTracker();
+        ITracker::bindMouseEvent(trackerModel->wndName, mouseEvent);
 
-  // Start capturing from video source
-  VideoCamera cam("cam");
-  cam.captureRealtimeWith(grayDownsampling, tracker);
-  return 0;
+        // Start capturing from video source
+        VideoSource cam = (argc >= 2)? VideoSource("video", argv[1]) : VideoSource("cam");
+        cam.captureRealtimeWith(grayDownsampling, tracker);
+        return 0;
+    }
+    catch (const std::exception& ex)
+    {
+        std::cerr << "Fatal: " << ex.what() << '\n';
+         return 1;
+    }
 }
